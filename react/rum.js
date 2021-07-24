@@ -6,6 +6,8 @@ const { execSync } = require('child_process');
 
 const colors = require('colors');
 
+const args = process.argv.slice(2);
+
 
 /* 
  * Create `src/Components` directory if it doesn't already exist
@@ -23,35 +25,67 @@ const makeComponentsDir = async () => {
 }
 
 
-const filePrompt = async () => {
-  prompt.start();
-
-  prompt.get(['fileName'], function (err, result) {
-      if (err) { return onErr(err); }
-      console.log('Command-line input received:');
-      console.log(` File Name: ` + result.fileName);
-      return result.fileName;
-  });
-
-  function onErr(err) {
-      console.log(err);
-      return 1;
-  }
-}
-
-
 const makeComponentFile = async () => {
   await makeComponentsDir();
 
-  // const newFileName = await filePrompt();
+  let filesToMake;
 
-  console.log('name: ', process.argv.slice(2));
+  if (args.includes('mkcompfl')) {
+    const fileNameIndy = args.indexOf('mkcompfl') + 1;
+    filesToMake = args[fileNameIndy].split(',');
+    console.log(colors.blue('Files to make: ', filesToMake));
+
+    filesToMake.forEach(f => {
+      const capitalized = f[0].toUpperCase() + f.slice(1);
+      fs.writeFileSync(`./src/Components/${capitalized}.js`, 'test');
+    });
+  }
+  
 
   //fs.writeFileSync(`./src/Components/${name}`, 'test');
 
 }
 
-exports.mcf = makeComponentFile();
+
+
+if (args.includes('mkcompfl')) {
+  makeComponentFile();
+} 
+
+const compTemp = name => {
+  const capitalized = name[0].toUpperCase() + f.slice(1);
+  const temp = `const ${capitalized} = (props) => {
+  
+    
+  
+    return (
+      <div className="modal-container">
+        <div className="modal">
+          <button type="button">X</button>
+          <Imgs children={props.component} />
+        </div>
+      </div>
+    );
+  }
+  
+  export default ${capitalized};`
+}
 
 
 // console.log('Comp dir variable = ', srcDir);
+
+// const filePrompt = async () => {
+//   prompt.start();
+
+//   prompt.get(['fileName'], function (err, result) {
+//       if (err) { return onErr(err); }
+//       console.log('Command-line input received:');
+//       console.log(` File Name: ` + result.fileName);
+//       return result.fileName;
+//   });
+
+//   function onErr(err) {
+//       console.log(err);
+//       return 1;
+//   }
+// }
