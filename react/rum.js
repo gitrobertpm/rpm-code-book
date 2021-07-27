@@ -53,22 +53,24 @@ if (args.includes('mkcompfl')) {
 } 
 
 const compTemp = name => {
+
   const capitalized = name[0].toUpperCase() + f.slice(1);
-  const temp = `const ${capitalized} = (props) => {
-  
-    
+
+  const temp = `const ${capitalized} = props => {
   
     return (
-      <div className="modal-container">
-        <div className="modal">
+      <div className="${capitalized}-container">
+        <h1>${capitalized}</h1>
+        <div className="${capitalized}">
           <button type="button">X</button>
-          <Imgs children={props.component} />
         </div>
       </div>
     );
   }
   
   export default ${capitalized};`
+
+  return temp;
 }
 
 
