@@ -24,37 +24,9 @@ const makeComponentsDir = async () => {
   }
 }
 
-
-const makeComponentFile = async () => {
-  await makeComponentsDir();
-
-  let filesToMake;
-
-  if (args.includes('mkcompfl')) {
-    const fileNameIndy = args.indexOf('mkcompfl') + 1;
-    filesToMake = args[fileNameIndy].split(',');
-    console.log(colors.blue('Files to make: ', filesToMake));
-
-    filesToMake.forEach(f => {
-      const capitalized = f[0].toUpperCase() + f.slice(1);
-      fs.writeFileSync(`./src/Components/${capitalized}.js`, 'test');
-    });
-  }
-  
-
-  //fs.writeFileSync(`./src/Components/${name}`, 'test');
-
-}
-
-
-
-if (args.includes('mkcompfl')) {
-  makeComponentFile();
-} 
-
 const compTemp = name => {
 
-  const capitalized = name[0].toUpperCase() + f.slice(1);
+  const capitalized = name[0].toUpperCase() + name.slice(1);
 
   const temp = `const ${capitalized} = props => {
   
@@ -72,6 +44,29 @@ const compTemp = name => {
 
   return temp;
 }
+
+
+const makeComponentFile = async () => {
+  await makeComponentsDir();
+
+  let filesToMake;
+
+  if (args.includes('mkcompfl')) {
+    const fileNameIndy = args.indexOf('mkcompfl') + 1;
+    filesToMake = args[fileNameIndy].split(',');
+    console.log(colors.blue('Files to make: ', filesToMake));
+
+    filesToMake.forEach(f => {
+      const capitalized = f[0].toUpperCase() + f.slice(1);
+      fs.writeFileSync(`./src/Components/${capitalized}.js`, compTemp(capitalized));
+    });
+  }
+
+}
+
+if (args.includes('mkcompfl')) {
+  makeComponentFile();
+} 
 
 
 // console.log('Comp dir variable = ', srcDir);
