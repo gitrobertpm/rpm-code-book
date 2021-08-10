@@ -3,3 +3,4 @@
 
 * [Flatten an Array of Arrays](flatten.js)
 * [Object Literal Conditionals](object-literal-conditionals.js)
+* [Possible Combinations](possible-combinations.js)
